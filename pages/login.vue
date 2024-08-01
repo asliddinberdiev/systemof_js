@@ -10,14 +10,14 @@ const {username, password, loading, submit} = useAuth()
 </script>
 
 <template>
-  <v-card class="card-border-radius bg-grey-lighten-4 px-4 py-2" rounded="xl">
+  <v-card class="card-border-radius bg-grey-lighten-3 px-4 py-2" rounded="xl">
     <v-card-title class="font-weight-bold text-uppercase mb-4 text-center">System Of Furqat</v-card-title>
     <form @submit.prevent="submit">
       <v-text-field
           v-model="username.value.value"
           :error-messages="username.errorMessage.value"
           rounded="xl"
-          bg-color="grey-lighten-4"
+          bg-color="grey-lighten-3"
           variant="solo"
           placeholder="username"
           min-width="320px"
@@ -28,7 +28,7 @@ const {username, password, loading, submit} = useAuth()
           :error-messages="password.errorMessage.value"
           :disabled="!!username.errorMessage.value || !username.value.value"
           rounded="xl"
-          bg-color="grey-lighten-4"
+          bg-color="grey-lighten-3"
           variant="solo"
           placeholder="password"
           min-width="320px"

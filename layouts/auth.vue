@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="bg-grey-lighten-4 h-screen w-full d-flex justify-center pt-16">
+  <div class="bg-grey-lighten-3 h-screen w-full d-flex justify-center pt-16">
     <div>
       <slot/>
     </div>
