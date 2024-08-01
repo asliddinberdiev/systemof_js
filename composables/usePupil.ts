@@ -1,0 +1,3 @@
+export function usePupil() {
+  return {};
+}
