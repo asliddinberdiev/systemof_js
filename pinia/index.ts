@@ -1,18 +1,5 @@
 import { defineStore } from "pinia";
 
-interface UserInterface {
-  id: number;
-  firstname: string;
-  lastname: string;
-  pupil_phone: number;
-  parent_phone: number;
-  image: string;
-  group: number;
-  end_time: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
 interface GroupInterface {
   id: number;
   name: string;
@@ -38,13 +25,19 @@ interface PupilInterface {
 interface State {
   pupilList: PupilInterface[];
   groupList: GroupInterface[];
-  pupil: PupilInterface;
-  group: GroupInterface;
-  user: boolean;
+  pupil: PupilInterface | null;
+  group: GroupInterface | null;
+  access: string;
+  refresh: string;
 }
 
 export const useMainStore = defineStore("main", {
   state: (): State => ({
-    mode: false,
+    pupilList: [],
+    groupList: [],
+    pupil: null,
+    group: null,
+    access: "",
+    refresh: "",
   }),
 });

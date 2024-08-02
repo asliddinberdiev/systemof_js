@@ -3,9 +3,13 @@ export function useLocalStorage() {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  function getLocalStorage(key: string) {
+  function getLocalStorage(key: string): string {
     const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : null;
+    if (storedValue) {
+      const parsedValue = JSON.parse(storedValue);
+      return typeof parsedValue === "string" ? parsedValue : "";
+    }
+    return "";
   }
 
   function removeItemLocalStorage(key: string) {

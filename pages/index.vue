@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const base_url = "https://agsu.pythonanywhere.com"
-const token = ref<string>("");
-const refresh = ref<string>("");
-await useFetch(`${base_url}/auth/login/`, {
-  method: "post",
-  body: { username: "go", password: "go" },
-}).then(({data}) => {
-  token.value = data.value?.access;
-  refresh.value = data.value?.refresh;
-});
+const {menuActions} = useLogout()
 </script>
 
 <template>
-  <div>index page</div>
+  <v-btn
+
+      class="my-4 text-white"
+      color="cyan"
+      size="large"
+      rounded="xl"
+      block
+      @click="menuActions('login')"
+  >
+    LOGOUT
+  </v-btn>
 </template>

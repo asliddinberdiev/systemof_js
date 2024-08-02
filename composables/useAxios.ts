@@ -1,63 +1,53 @@
-import {useLocalStorage} from "@/composables/useLocalStorage";
-import {da} from "vuetify/locale";
+import axios from "axios";
 
 export function useAxios() {
-    const {getLocalStorage, setLocalStorage, clearLocalStorage} = useLocalStorage()
-    const config = useRuntimeConfig()
-    const base_url = config.public.BASE_URL
-    const refresh_token = getLocalStorage("refresh")
-    const access_token = getLocalStorage("access")
+  const config = useRuntimeConfig();
+  const { getLocalStorage, setLocalStorage, clearLocalStorage } =
+    useLocalStorage();
+  const baseURL = config.public.BASE_URL || "http://localhost:8000";
 
+  const api = axios.create({
+    baseURL,
+  });
 
-    async function list(url: string) {
-    }
+  // Request interceptor to attach the access token
+  api.interceptors.request.use(
+    (config) => {
+      const access = getLocalStorage("access");
+      if (access) config.headers.Authorization = `Bearer ${access}`;
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
 
-    async function get(url: string) {
-    }
+  // Response interceptor to handle token refresh
+  api.interceptors.response.use(
+    ({ data }) => data,
+    async (error) => {
+      const refresh = getLocalStorage("refresh");
 
-    async function update(url: string, data: any) {
-    }
+      const isUnauthorized = error.response?.status === 401;
+      const isTokenInvalid = error.response?.data?.code === "token_not_valid";
 
-    async function remove(url: string) {
-    }
+      if ((isUnauthorized || isTokenInvalid) && refresh) {
+        try {
+          const { data } = await axios.post(`${baseURL}/auth/refresh/`, {
+            refresh,
+          });
+          setLocalStorage("access", data.access);
 
-    async function login(username: string, password: string) {
-        const {data, error} = await useFetch(`${base_url}/auth/login/`, {
-            method: 'POST',
-            body: JSON.stringify({username, password}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (data) {
-            setLocalStorage("access", data.value?.access)
-            setLocalStorage("refresh", data.value?.refresh)
-            navigateTo("")
+          // Retry the original request with the new access token
+          error.config.headers.Authorization = `Bearer ${data.access}`;
+          return api.request(error.config);
+        } catch (refreshError) {
+          clearLocalStorage();
+          navigateTo("/login");
+          return;
         }
-
-        return {data: toRaw(data?.value), error: toRaw(error?.value)}
+      }
+      return Promise.reject(error);
     }
+  );
 
-    async function logout() {
-    }
-
-    async function refresh() {
-        if (refresh_token) {
-            const {data, error} = await useFetch(`${base_url}/auth/refresh/`, {
-                method: 'POST',
-                body: JSON.stringify({refresh_token}),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log(toRaw(data), toRaw(error))
-        } else {
-            clearLocalStorage()
-            navigateTo('login')
-        }
-    }
-
-
-    return {list, get, update, remove, login, logout, refresh};
+  return { api };
 }

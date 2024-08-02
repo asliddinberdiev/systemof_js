@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {useAuth} from "~/composables/useAuth";
+import {useLogin} from "@/composables/useAuth";
 
 definePageMeta({
   layout: "auth",
 });
 
-const {username, password, loading, submit} = useAuth()
+const {username, password, loading, submit} = useLogin()
 
 </script>
 
