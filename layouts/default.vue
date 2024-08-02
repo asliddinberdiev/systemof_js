@@ -1,7 +1,5 @@
 <script setup>
 import { ref } from "vue";
-const {menuActions} = useLogout()
-
 const menuList = [
   {
     icon: "mdi-clipboard-list",
@@ -31,7 +29,7 @@ const menuList = [
     icon: "mdi-logout",
     title: "Logout",
     color: "red",
-    path: "login",
+    path: "/",
   },
 ];
 
@@ -59,7 +57,6 @@ const drawer = ref(false);
             :key="icon"
             :title="title"
             link
-            @click="menuActions('login')"
         >
           <template v-slot:prepend>
             <v-icon :icon="icon" :color="color" />
