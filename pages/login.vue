@@ -33,6 +33,7 @@ const {username, password, loading, submit} = useLogin()
           placeholder="password"
           min-width="320px"
           prepend-inner-icon="mdi-lock-outline"
+          type="password"
       />
 
       <v-btn

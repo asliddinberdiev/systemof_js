@@ -64,7 +64,7 @@ export function useLogout() {
                 .then(() => {
                     clearLocalStorage()
                     navigateTo(toPath);
-                    toast("Tizimdan chiqib ketdingiz!")
+                    toast.warning("Tizimdan chiqib ketdingiz!")
                 })
         }
     }
