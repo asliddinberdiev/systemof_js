@@ -1,79 +1,82 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+const { menuActions } = useLogout();
+
+const route = useRoute();
+const drawer = ref(true);
+const appTitle = ref("Pupils");
+
 const menuList = [
   {
-    icon: "mdi-clipboard-list",
-    title: "Todos",
-    color: "blue",
+    icon: "mdi-account-school",
+    title: "Pupils",
+    color: "primary",
     path: "/",
   },
   {
-    icon: "mdi-check-all",
-    title: "Done",
+    icon: "mdi-account-group",
+    title: "Groups",
     color: "green",
-    path: "/",
-  },
-  {
-    icon: "mdi-delete",
-    title: "Trash",
-    color: "gray",
-    path: "/",
-  },
-  {
-    icon: "mdi-account-cog",
-    title: "Setting",
-    color: "indigo",
-    path: "/",
-  },
-  {
-    icon: "mdi-logout",
-    title: "Logout",
-    color: "red",
-    path: "/",
+    path: "groups",
   },
 ];
 
-const drawer = ref(false);
+watch(
+  () => route.name,
+  (newRoute) => {
+    if (newRoute == "index") appTitle.value = "Pupils";
+    else appTitle.value = route.name;
+  }
+);
+
+onMounted(() => {
+  if (route.name == "index") appTitle.value = "Pupils";
+  else appTitle.value = route.name;
+});
 </script>
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
       <v-sheet
-          class="pa-4 d-flex flex-column justify-center align-center"
-          color="grey-lighten-4"
+        class="pa-4 d-flex flex-column justify-center align-center"
+        color="grey-lighten-4"
       >
-        <v-avatar lass="mb-4" color="grey-darken-1" size="80">
-          <span class="text-h3">A</span>
+        <v-avatar lass="mb-4" color="primary" size="80">
+          <span class="text-h3">F</span>
         </v-avatar>
-
-        <div>asliddin@google.com</div>
       </v-sheet>
 
       <v-divider />
 
       <v-list density="compact">
         <v-list-item
-            v-for="{ icon, title, color, path } in menuList"
-            :key="icon"
-            :title="title"
-            link
+          v-for="{ icon, title, color, path } in menuList"
+          :key="icon"
+          :title="title"
+          link
+          @click="navigateTo(path)"
         >
           <template v-slot:prepend>
             <v-icon :icon="icon" :color="color" />
           </template>
-          <template v-if="!['login'].includes(path)" v-slot:append>
-            <v-badge :color="color" :content="color.length" inline></v-badge>
+          <template v-slot:append>
+            <v-badge :color="color" :content="color.length" inline />
           </template>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar>
-      <v-app-bar-nav-icon
-          v-if="!drawer"
-          @click="drawer = !drawer"
-      ></v-app-bar-nav-icon>
-      <v-app-bar-title class="text-center">Todo App</v-app-bar-title>
+      <v-app-bar-nav-icon v-if="!drawer" @click="drawer = !drawer" />
+      <v-app-bar-title>{{ appTitle.toUpperCase() }}</v-app-bar-title>
+      <v-spacer />
+      <v-btn
+        icon="mdi-logout"
+        class="bg-primary mr-4"
+        color="white"
+        size="small"
+        @click="menuActions('login')"
+      />
     </v-app-bar>
 
     <v-main>
