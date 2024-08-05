@@ -1,4 +1,4 @@
-import { useLocalStorage } from "@/composables/useLocalStorage";
+import { useLocalStorage } from "~/composable/useLocalStorage";
 
 export default defineNuxtRouteMiddleware((to, _from) => {
   const { getLocalStorage, clearLocalStorage } = useLocalStorage();

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useLocalStorage} from "@/composable/useLocalStorage";
 
 export function useAxios() {
   const config = useRuntimeConfig();

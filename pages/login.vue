@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLogin } from "@/composables/useAuth";
+import { useLogin } from "~/composable/useAuth";
 import { useDisplay } from "vuetify";
 
 const { name } = useDisplay();

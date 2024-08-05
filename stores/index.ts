@@ -3,10 +3,11 @@ import { defineStore } from "pinia";
 interface GroupInterface {
   id: number;
   name: string;
+  day: string;
   start_time: string;
   end_time: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }
 
 interface PupilInterface {

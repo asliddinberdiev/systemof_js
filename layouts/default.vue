@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
+import {useLogout} from "@/composable/useAuth";
 const { menuActions } = useLogout();
 
 const route = useRoute();
