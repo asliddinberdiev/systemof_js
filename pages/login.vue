@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useLogin } from "@/composables/useAuth";
+import { useDisplay } from "vuetify";
+
+const { mobile } = useDisplay();
 
 definePageMeta({
   layout: "auth",
@@ -10,8 +13,8 @@ const { username, password, loading, submit } = useLogin();
 
 <template>
   <v-card
-    class="card-border-radius bg-grey-lighten-3 px-4 py-2 w-full"
-    min-width="320"
+    class="card-border-radius bg-grey-lighten-3 px-4 py-2"
+    :min-width="mobile ? 300 : 500"
     rounded="xl"
   >
     <v-card-title class="font-weight-bold text-uppercase mb-4 text-center"
