@@ -4,7 +4,7 @@ import {useLogout} from "@/composable/useAuth";
 const { menuActions } = useLogout();
 
 const route = useRoute();
-const drawer = ref(true);
+const drawer = ref(false);
 const appTitle = ref("Pupils");
 
 const menuList = [
