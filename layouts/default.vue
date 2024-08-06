@@ -1,12 +1,16 @@
 <script setup>
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import {useLogout} from "@/composable/useAuth";
+import {useMainStore} from "@/stores"
+import {storeToRefs} from "pinia";
 
 const {menuActions} = useLogout();
-
 const route = useRoute();
+const store = useMainStore();
+const {appName} = storeToRefs(store)
+
 const drawer = ref(false);
-const appTitle = ref("Pupils");
+
 
 const menuList = [
   {
@@ -19,24 +23,10 @@ const menuList = [
     icon: "mdi-account-group",
     title: "Groups",
     color: "green",
-    path: "groups",
+    path: "/groups",
   },
 ];
 
-watch(
-    () => route.name,
-    (newRoute) => {
-      if (newRoute === "index") appTitle.value = "Pupils";
-      else if (newRoute.includes("firstname")) appTitle.value = `Pupils - ${route.params?.firstname}`;
-      else appTitle.value = newRoute;
-    }
-);
-
-onMounted(() => {
-  if (route.name === "index") appTitle.value = "Pupils";
-  else if (route.name.includes("firstname")) appTitle.value = `Pupils - ${route.params?.firstname}`;
-  else appTitle.value = route?.name;
-});
 </script>
 <template>
   <v-app id="inspire">
@@ -72,7 +62,7 @@ onMounted(() => {
 
     <v-app-bar>
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer = !drawer"/>
-      <v-app-bar-title>{{ appTitle.toUpperCase() }}</v-app-bar-title>
+      <v-app-bar-title>{{ appName.toUpperCase() }}</v-app-bar-title>
       <v-spacer/>
       <v-btn
           icon="mdi-logout"
