@@ -27,13 +27,15 @@ watch(
     () => route.name,
     (newRoute) => {
       if (newRoute === "index") appTitle.value = "Pupils";
-      else appTitle.value = route.name;
+      else if (newRoute.includes("firstname")) appTitle.value = `Pupils - ${route.params?.firstname}`;
+      else appTitle.value = newRoute;
     }
 );
 
 onMounted(() => {
   if (route.name === "index") appTitle.value = "Pupils";
-  else appTitle.value = route.name;
+  else if (route.name.includes("firstname")) appTitle.value = `Pupils - ${route.params?.firstname}`;
+  else appTitle.value = route?.name;
 });
 </script>
 <template>
@@ -81,8 +83,24 @@ onMounted(() => {
       />
     </v-app-bar>
 
-    <v-main>
-      <v-container class="pa-3" fluid>
+    <v-main class="overflow-y-hidden h-screen">
+      <v-card class="mt-4" flat>
+        <v-card-title class="d-flex align-center">
+          <v-text-field
+              density="compact"
+              label="Search"
+              prepend-inner-icon="mdi-magnify"
+              variant="solo-filled"
+              flat
+              hide-details
+              single-line
+              color="white"
+              class="mr-3 mr-sm-12"
+          />
+          <v-btn color="primary" size="small" icon="mdi-plus"/>
+        </v-card-title>
+      </v-card>
+      <v-container class="px-6 overflow-y-scroll h-75" fluid>
         <NuxtPage/>
       </v-container>
     </v-main>

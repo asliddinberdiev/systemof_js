@@ -2,11 +2,9 @@
 </script>
 
 <template>
-  <div class="d-grid ga-2 py-2">
-    <v-row>
-      <v-col v-for="(index,_) in 14" :key="index">
-        <Pupil/>
-      </v-col>
-    </v-row>
-  </div>
+  <v-row class="d-grid py-2">
+    <v-col v-for="(index,_) in 14" :key="index">
+      <Pupil/>
+    </v-col>
+  </v-row>
 </template>

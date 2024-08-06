@@ -6,16 +6,7 @@
         width="150"
         src="https://parade.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk5OTYwMjQzOTg2MjQ1MjQ4/selena-gomez-health.jpg"
         cover
-    >
-      <template v-slot:placeholder>
-        <div class="d-flex align-center justify-center fill-height">
-          <v-progress-circular
-              color="grey-lighten-4"
-              indeterminate
-          ></v-progress-circular>
-        </div>
-      </template>
-    </v-img>
+    />
 
     <v-card-title class="pt-4 text-center text-uppercase font-weight-bold">
       Selena Gomez
@@ -47,13 +38,13 @@
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .glass-card:hover {
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px);
 }
 </style>
