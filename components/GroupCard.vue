@@ -20,16 +20,16 @@ toRefs(props);
 
     <v-card-text>
       <v-row no-gutters>
-        <v-col class="text-center">Day</v-col>
-        <v-col class="text-center">{{ item.day }}</v-col>
+        <v-col>Day</v-col>
+        <v-col class="text-end">{{ item.day }}</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="text-center">Start Time</v-col>
-        <v-col class="text-center">{{ item.start_time.slice(0, 5) }}</v-col>
+        <v-col>Start Time</v-col>
+        <v-col class="text-end">{{ item.start_time.slice(0, -3) }}</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="text-center">End Time</v-col>
-        <v-col class="text-center">{{ item.end_time.slice(0, 5) }}</v-col>
+        <v-col>End Time</v-col>
+        <v-col class="text-end">{{ item.end_time.slice(0, -3) }}</v-col>
       </v-row>
     </v-card-text>
   </v-card>
