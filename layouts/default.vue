@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import {useLogout} from "@/composable/useAuth";
+import { useLogout } from "@/composable/useAuth";
 const { menuActions } = useLogout();
 
 const route = useRoute();
@@ -25,13 +25,13 @@ const menuList = [
 watch(
   () => route.name,
   (newRoute) => {
-    if (newRoute == "index") appTitle.value = "Pupils";
+    if (newRoute.includes("index")) appTitle.value = "Pupils";
     else appTitle.value = route.name;
   }
 );
 
 onMounted(() => {
-  if (route.name == "index") appTitle.value = "Pupils";
+  if (route.name.includes("index")) appTitle.value = "Pupils";
   else appTitle.value = route.name;
 });
 </script>
