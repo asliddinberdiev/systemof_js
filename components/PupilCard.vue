@@ -1,32 +1,54 @@
+<script setup lang="ts">
+import { toRefs } from "vue";
+import type { PupilInterface } from "@/interfaces";
+const props = defineProps({
+  item: {
+    type: Object as PropType<PupilInterface>,
+    required: true,
+  },
+});
+toRefs(props);
+</script>
+
 <template>
   <v-card class="glass-card mx-auto rounded-lg" min-width="250">
     <v-img
-        class="mx-auto mt-4 rounded-circle"
-        height="150"
-        width="150"
-        src="https://parade.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk5OTYwMjQzOTg2MjQ1MjQ4/selena-gomez-health.jpg"
-        cover
+      class="mx-auto mt-4 rounded-circle"
+      height="150"
+      width="150"
+      :src="item?.image"
+      cover
     />
 
     <v-card-title class="pt-4 text-center text-uppercase font-weight-bold">
-      Selena Gomez
+      {{ item?.firstname }} {{ item?.lastname }}
     </v-card-title>
 
     <v-card-text>
       <div class="d-flex flex-wrap justify-space-between">
         <h3>Group</h3>
-        <h3 class="font-italic text-uppercase">42-19ab</h3>
+        <h3 class="font-italic text-uppercase">{{ item?.group }}</h3>
       </div>
       <div class="d-flex flex-wrap justify-space-between">
         <h3>Pupil</h3>
         <h3 class="font-italic text-uppercase">
-          <a class="text-black text-decoration-none" href="tel:+998901202124">+998901202124</a>
+          <a
+            class="text-black text-decoration-none"
+            :href="`tel:+${item?.pupil_phone}`"
+          >
+            +{{ item?.pupil_phone }}
+          </a>
         </h3>
       </div>
       <div class="d-flex flex-wrap justify-space-between">
         <h3>Parent</h3>
         <h3 class="font-italic text-uppercase">
-          <a class="text-black text-decoration-none" href="tel:+998904262233">+998904262233</a>
+          <a
+            class="text-black text-decoration-none"
+            :href="`tel:+${item?.parent_phone}`"
+          >
+            +{{ item?.parent_phone }}
+          </a>
         </h3>
       </div>
     </v-card-text>
@@ -48,5 +70,4 @@
   transform: translateY(-5px);
 }
 </style>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

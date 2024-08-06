@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       BASE_URL: process.env.BASE_URL || "http://localhost:8000",
+      AUTH_URL: "/auth",
+      MAIN_URL: "/api/v1"
     },
   },
   compatibilityDate: "2024-04-03",

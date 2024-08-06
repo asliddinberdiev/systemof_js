@@ -38,7 +38,7 @@ export function useLogin() {
                 password: values?.password,
             })
             .then((response: any) => {
-                const {access, refresh} = response;
+                const {access, refresh} = response.data;
                 handleReset();
                 navigateTo("/");
                 setLocalStorage("access", access);

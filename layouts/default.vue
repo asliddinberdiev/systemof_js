@@ -1,16 +1,17 @@
 <script setup>
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import {useLogout} from "@/composable/useAuth";
-import {useMainStore} from "@/stores"
+import {useMainStore} from "@/store"
 import {storeToRefs} from "pinia";
 
-const {menuActions} = useLogout();
-const route = useRoute();
 const store = useMainStore();
 const {appName} = storeToRefs(store)
 
-const drawer = ref(false);
+const {menuActions} = useLogout();
+const route = useRoute();
 
+const drawer = ref(false);
+const isSearch = computed(() => !route.params.slug)
 
 const menuList = [
   {
@@ -53,9 +54,6 @@ const menuList = [
           <template v-slot:prepend>
             <v-icon :icon="icon" :color="color"/>
           </template>
-          <template v-slot:append>
-            <v-badge :color="color" :content="color.length" inline/>
-          </template>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -74,7 +72,7 @@ const menuList = [
     </v-app-bar>
 
     <v-main class="overflow-y-hidden h-screen">
-      <v-card class="mt-4" flat>
+      <v-card v-if="isSearch" class="mt-4" flat>
         <v-card-title class="d-flex align-center">
           <v-text-field
               density="compact"

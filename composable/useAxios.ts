@@ -3,9 +3,9 @@ import {useLocalStorage} from "@/composable/useLocalStorage";
 
 export function useAxios() {
   const config = useRuntimeConfig();
+  const baseURL = config.public.BASE_URL || "http://localhost:8000";
   const { getLocalStorage, setLocalStorage, clearLocalStorage } =
     useLocalStorage();
-  const baseURL = config.public.BASE_URL || "http://localhost:8000";
 
   const api = axios.create({
     baseURL,
@@ -23,7 +23,7 @@ export function useAxios() {
 
   // Response interceptor to handle token refresh
   api.interceptors.response.use(
-    ({ data }) => data,
+    (res) => res,
     async (error) => {
       const refresh = getLocalStorage("refresh");
 
