@@ -12,7 +12,7 @@ toRefs(props);
 </script>
 
 <template>
-  <v-card class="glass-card mx-auto rounded-lg" min-width="200">
+  <v-card class="GroupCard mx-auto rounded-lg" max-width="350" min-width="250">
 
     <v-card-title class="pt-4 text-center text-uppercase font-weight-bold">
       {{ item?.name }}
@@ -34,3 +34,15 @@ toRefs(props);
     </v-card-text>
   </v-card>
 </template>
+
+<style scoped>
+.GroupCard {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.GroupCard:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+</style>

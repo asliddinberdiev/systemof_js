@@ -11,7 +11,7 @@ toRefs(props);
 </script>
 
 <template>
-  <v-card class="glass-card mx-auto rounded-lg" min-width="250">
+  <v-card class="PeopleCard mx-auto rounded-lg" max-width="350" min-width="250">
     <v-img
       class="mx-auto mt-4 rounded-circle"
       height="150"
@@ -56,7 +56,7 @@ toRefs(props);
 </template>
 
 <style scoped>
-.glass-card {
+.PeopleCard {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
@@ -65,9 +65,8 @@ toRefs(props);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.glass-card:hover {
+.PeopleCard:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px);
 }
 </style>
-<script setup lang="ts"></script>
