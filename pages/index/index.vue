@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="d-grid ga-2">
+  <div class="d-grid ga-2 py-2">
     <v-row>
       <v-col v-for="(index,_) in 14" :key="index">
         <Pupil/>
