@@ -16,7 +16,6 @@ export default defineNuxtConfig({
   plugins: [{ src: "~/plugins/toast" }],
   modules: [
     "@pinia/nuxt",
-    "@nuxt/image",
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         // @ts-expect-error

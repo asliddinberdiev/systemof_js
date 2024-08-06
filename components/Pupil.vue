@@ -1,15 +1,25 @@
 <template>
   <v-card class="glass-card mx-auto rounded-lg" min-width="250">
     <v-img
+        lazy-src="/img/user.webp"
         class="mx-auto mt-4 rounded-circle"
         height="150"
         width="150"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        src="https://parade.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk5OTYwMjQzOTg2MjQ1MjQ4/selena-gomez-health.jpg"
         cover
-    />
+    >
+      <template v-slot:placeholder>
+        <div class="d-flex align-center justify-center fill-height">
+          <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+          ></v-progress-circular>
+        </div>
+      </template>
+    </v-img>
 
     <v-card-title class="pt-4 text-center text-uppercase font-weight-bold">
-      Asliddin Berdiev
+      Selena Gomez
     </v-card-title>
 
     <v-card-text>
