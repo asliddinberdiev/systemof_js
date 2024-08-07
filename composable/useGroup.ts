@@ -47,7 +47,8 @@ export function useGroupForm() {
                     day: group.value.day,
                     start_time: group.value.start_time,
                     end_time: group.value.end_time
-                }).then(() => router.push("/groups"));
+                })
+                await router.push("/groups")
             } catch (error) {
                 console.log("useGroup - update: ", error)
             }
