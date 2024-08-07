@@ -33,7 +33,7 @@ export function useGroupForm() {
         },
     ]
     const groupId = computed(() => route.params.slug);
-    const timeRegex = /^[0-9][0-9]:[0-9][0-9]$/;
+    const timeRegex = /^([01][0-9]|2[0-3]):[0-5][0-9]$/;
 
     // schema
     const schema = {
