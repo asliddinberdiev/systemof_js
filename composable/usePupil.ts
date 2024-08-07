@@ -1,29 +1,49 @@
-import { usePupilStore } from "@/store/pupil";
-import { storeToRefs } from "pinia";
+import {usePupilStore} from "@/store/pupil";
+import {storeToRefs} from "pinia";
+import {useGroupStore} from "@/store/group";
+import {useToast} from "vue-toastification";
 
 export function usePupil() {
-  const store = usePupilStore();
-  const { loading, list } = storeToRefs(store);
-  const { fetchList } = store;
+    // Pupil Store
+    const pupilStore = usePupilStore();
+    const {loading, list} = storeToRefs(pupilStore);
+    const {fetchList: pupilFetchList} = pupilStore;
 
-  return {loading, list, fetchList, store};
+    // Group Store
+    const groupStore = useGroupStore();
+    const {fetchList: groupFetchList, getGroupWithName} = groupStore;
+
+    return {loading, list, getGroupWithName, pupilFetchList, groupFetchList, pupilStore, groupStore};
 }
 
 export function usePupilForm() {
-  const defaultValue = {
-    id: 0,
-    firstname: "",
-    lastname: "",
-    pupil_phone: "",
-    parent_phone: "",
-    image: "",
-    group: 0,
-    end_time: "",
-    created_at: "",
-    updated_at: "",
-  };
+    const toast = useToast()
+    const route = useRoute()
+    const pupilId = computed(() => route.params.slug);
 
-  return {
-    defaultValue,
-  };
+    const pupilStore = usePupilStore();
+    const {loading, item: pupil} = storeToRefs(pupilStore);
+    const {fetchItem} = pupilStore;
+
+    const groupStore = useGroupStore();
+    const {getGroupListWithName} = storeToRefs(groupStore);
+    const {fetchList: groupFetchList} = groupStore;
+
+    function Action() {
+        if (pupil.value.id === 0) {
+            toast.success("created")
+        } else {
+            toast.success("updated")
+        }
+    }
+
+    return {
+        loading,
+        pupilId,
+        getGroupListWithName,
+        pupil,
+        groupFetchList,
+        fetchItem,
+        Action,
+    };
 }

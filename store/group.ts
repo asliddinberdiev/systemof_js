@@ -1,34 +1,97 @@
-import { defineStore } from "pinia";
+import {defineStore} from "pinia";
 import type {
-  GroupStateInterface as State,
-  GroupInterface,
+    GroupStateInterface as State,
+    GroupInterface,
 } from "@/interfaces";
-import { useAxios } from "@/composable/useAxios";
+import {useAxios} from "@/composable/useAxios";
+import {useToast} from "vue-toastification";
 
-const { api } = useAxios();
+const {api} = useAxios();
 const config = useRuntimeConfig();
 const url = config.public.MAIN_URL;
 
 export const useGroupStore = defineStore("group", {
-  state: (): State => ({
-    loading: true,
-    list: [],
-    item: null,
-  }),
-  getters: {
-    getGroup: (state) => (id: number) =>
-      state.list.find((item) => item.id === id),
-  },
-  actions: {
-    async fetchList() {
-      try {
-        const res = await api.get<GroupInterface[]>(`${url}/groups/`);
-        this.list = res.data;
-      } catch (error) {
-        console.error("group fetchList error: ", error);
-      } finally {
-        this.loading = false;
-      }
+    state: (): State => ({
+        loading: true,
+        list: [],
+        item: {
+            id: 0,
+            name: "",
+            day: "",
+            start_time: "",
+            end_time: "",
+            created_at: "",
+            updated_at: "",
+        },
+    }),
+    getters: {
+        getGroupListWithName: (state: State) => state.list.map(item => ({
+            id: item.id, name: item.name
+        })),
+        getGroup: (state) => (id: number) =>
+            state.list.find((item) => item.id === id),
+        getGroupWithName: (state) => (id: number) => {
+            const item = state.list.find(item => item.id === id);
+            return item ? item.name : "";
+        }
     },
-  },
+    actions: {
+        async fetchList() {
+            const toast = useToast()
+            try {
+                const res = await api.get<GroupInterface[]>(`${url}/groups/`);
+                this.list = res.data;
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message)
+            } finally {
+                this.loading = false;
+            }
+        },
+        async fetchItem(id: number) {
+            const toast = useToast()
+            try {
+                const res = await api.get<GroupInterface>(`${url}/groups/${id}/`);
+                this.item = res.data;
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message)
+            } finally {
+                this.loading = false;
+            }
+        },
+        async createItem(item: GroupInterface) {
+            const toast = useToast()
+            try {
+                const res = await api.post<GroupInterface>(`${url}/groups/`, item);
+                this.item = res.data;
+                toast.success("successfully created")
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message)
+            } finally {
+                this.loading = false;
+            }
+        },
+        async updateItem(item: GroupInterface) {
+            const toast = useToast()
+            try {
+                const res = await api.patch<GroupInterface>(`${url}/groups/${item.id}/`, item);
+                this.item = res.data;
+                toast.success("successfully updated")
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message)
+            } finally {
+                this.loading = false;
+            }
+        },
+        async deleteItem(id: number) {
+            const toast = useToast()
+            try {
+                await api.delete(`${url}/groups/${id}/`)
+                toast.success("successfully deleted")
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message)
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
 });

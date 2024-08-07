@@ -8,6 +8,7 @@ const store = useMainStore();
 const {appName} = storeToRefs(store)
 
 const {menuActions} = useLogout();
+const router = useRouter()
 const route = useRoute();
 
 const drawer = ref(false);
@@ -27,6 +28,15 @@ const menuList = [
     path: "/groups",
   },
 ];
+
+function addBtnAction() {
+  if (route.name === "index") navigateTo("/0")
+  else navigateTo("/groups/0")
+}
+
+function backAction() {
+  router.back()
+}
 
 </script>
 <template>
@@ -60,7 +70,15 @@ const menuList = [
 
     <v-app-bar>
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer = !drawer"/>
-      <v-app-bar-title>{{ appName.toUpperCase() }}</v-app-bar-title>
+      <v-app-bar-title>
+        {{ appName.toUpperCase() }}
+        <v-btn
+            v-if="!!route.params.slug"
+            @click="backAction"
+            icon="mdi-arrow-left-bold"
+            color="primary"
+            variant="plain"/>
+      </v-app-bar-title>
       <v-spacer/>
       <v-btn
           icon="mdi-logout"
@@ -85,7 +103,7 @@ const menuList = [
               color="white"
               class="mr-3 mr-sm-12"
           />
-          <v-btn color="primary" size="small" icon="mdi-plus"/>
+          <v-btn color="primary" size="small" icon="mdi-plus" @click="addBtnAction"/>
         </v-card-title>
       </v-card>
       <v-container class="px-6 overflow-y-scroll h-75" fluid>

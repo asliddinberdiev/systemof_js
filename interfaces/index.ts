@@ -4,8 +4,8 @@ export interface GroupInterface {
     day: string;
     start_time: string;
     end_time: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface PupilInterface {
@@ -15,22 +15,22 @@ export interface PupilInterface {
     pupil_phone: string;
     parent_phone: string;
     image: string;
-    group: number;
+    group: number | string;
     end_time: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface GroupStateInterface {
     loading: boolean;
     list: GroupInterface[];
-    item: GroupInterface | null;
+    item: GroupInterface;
 }
 
 export interface PupilStateInterface {
     loading: boolean;
     list: PupilInterface[];
-    item: PupilInterface | null;
+    item: PupilInterface;
 }
 
 export interface MainStateInterface {
