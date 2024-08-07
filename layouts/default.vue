@@ -38,6 +38,11 @@ function backAction() {
   router.back()
 }
 
+function swipe(direction) {
+  if (direction === "right") drawer.value = true
+  if (direction === "left") drawer.value = false
+}
+
 </script>
 <template>
   <v-app id="inspire">
@@ -89,7 +94,11 @@ function backAction() {
       />
     </v-app-bar>
 
-    <v-main class="overflow-y-hidden h-screen">
+    <v-main
+        v-touch="{
+      left: () => swipe('left'),
+      right: () => swipe('right'),
+    }" class="overflow-y-hidden h-screen">
       <v-card v-if="isSearch" class="mt-4" flat>
         <v-card-title class="d-flex align-center">
           <v-text-field
