@@ -21,7 +21,7 @@ toRefs(props);
     <v-card-text>
       <v-row no-gutters>
         <v-col>Day</v-col>
-        <v-col class="text-end">{{ item.day }}</v-col>
+        <v-col class="text-end">{{ item.day ?'Odd':'Even' }}</v-col>
       </v-row>
       <v-row no-gutters>
         <v-col>Start Time</v-col>

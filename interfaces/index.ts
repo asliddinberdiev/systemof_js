@@ -1,7 +1,7 @@
 export interface GroupInterface {
     id: number;
     name: string;
-    day: string;
+    day: boolean;
     start_time: string;
     end_time: string;
     created_at?: string;

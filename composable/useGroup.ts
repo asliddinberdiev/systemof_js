@@ -1,17 +1,19 @@
 import {storeToRefs} from "pinia";
+import {watch} from "vue";
 import {useGroupStore} from "@/store/group";
-import {useToast} from "vue-toastification";
-import router from "#app/plugins/router";
+import {useField, useForm} from "vee-validate";
+import type {FieldContext} from "vee-validate";
+import type {GroupInterface} from "@/interfaces";
 
 export function useGroup() {
     const store = useGroupStore();
     const {loading, list} = storeToRefs(store);
     const {fetchList} = store;
+
     return {loading, list, fetchList, store};
 }
 
 export function useGroupForm() {
-    const toast = useToast()
     const router = useRouter()
     const route = useRoute()
 
@@ -20,19 +22,76 @@ export function useGroupForm() {
     const {fetchItem, createItem, updateItem, deleteItem} = store;
 
     const isOpenModal = ref(false)
+    const daySelectItems = [
+        {
+            title: 'Odd',
+            value: true
+        },
+        {
+            title: 'Even',
+            value: false
+        },
+    ]
     const groupId = computed(() => route.params.slug);
+    const timeRegex = /^[0-9][0-9]:[0-9][0-9]$/;
+
+    // schema
+    const schema = {
+        name(value: string): boolean | string {
+            if (!value) {
+                return "Name is required.";
+            }
+            if (value.length < 3) {
+                return "Name needs to be at least 3 characters.";
+            }
+            if (value.length > 20) {
+                return "Name cannot exceed 20 characters.";
+            }
+            return true;
+        },
+        start_time(value: string): boolean | string {
+            if (!value) {
+                return "Start Time is required.";
+            }
+            if (!timeRegex.test(value)) {
+                return 'Invalid time format';
+            }
+            return true;
+        },
+        end_time(value: string): boolean | string {
+            if (!value) {
+                return "End Time is required.";
+            }
+            if (!timeRegex.test(value)) {
+                return 'Invalid time format';
+            }
+            return true;
+        },
+    }
+
+    // useForm
+    const {handleSubmit, handleReset} = useForm({
+        initialValues: group,
+        validationSchema: schema,
+    });
+
+    const id: FieldContext<number> = useField("id")
+    const name: FieldContext<string> = useField("name");
+    const day: FieldContext<boolean> = useField("day");
+    const start_time: FieldContext<string> = useField("start_time");
+    const end_time: FieldContext<string> = useField("end_time");
 
     // create and update item
-    async function Action() {
-        if (group.value.id === 0) {
+    const Action = handleSubmit(async (values: any) => {
+        if (values.id === 0) {
             // create item
             try {
                 await createItem({
-                    id: group.value.id,
-                    name: group.value.name,
-                    day: group.value.day,
-                    start_time: group.value.start_time,
-                    end_time: group.value.end_time
+                    id: values.id,
+                    name: values.name,
+                    day: values.day,
+                    start_time: values.start_time,
+                    end_time: values.end_time
                 })
                 await router.push("/groups")
             } catch (error) {
@@ -42,18 +101,18 @@ export function useGroupForm() {
             // update item
             try {
                 await updateItem({
-                    id: group.value.id,
-                    name: group.value.name,
-                    day: group.value.day,
-                    start_time: group.value.start_time,
-                    end_time: group.value.end_time
+                    id: values.id,
+                    name: values.name,
+                    day: values.day,
+                    start_time: values.start_time,
+                    end_time: values.end_time
                 })
                 await router.push("/groups")
             } catch (error) {
                 console.log("useGroup - update: ", error)
             }
         }
-    }
+    });
 
     // delete item
     async function deleteAction(action: number) {
@@ -66,5 +125,19 @@ export function useGroupForm() {
         }
     }
 
-    return {loading, isOpenModal, group, groupId, fetchItem, Action, deleteAction};
+    return {
+        groupId,
+        store,
+        loading,
+        isOpenModal,
+        id,
+        name,
+        day,
+        start_time,
+        end_time,
+        daySelectItems,
+        fetchItem,
+        Action,
+        deleteAction
+    };
 }

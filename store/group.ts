@@ -1,8 +1,5 @@
 import {defineStore} from "pinia";
-import type {
-    GroupStateInterface as State,
-    GroupInterface,
-} from "@/interfaces";
+import type {GroupStateInterface as State, GroupInterface} from "@/interfaces";
 import {useAxios} from "@/composable/useAxios";
 import {useToast} from "vue-toastification";
 
@@ -17,7 +14,7 @@ export const useGroupStore = defineStore("group", {
         item: {
             id: 0,
             name: "",
-            day: "",
+            day: true,
             start_time: "",
             end_time: "",
             created_at: "",
@@ -37,76 +34,76 @@ export const useGroupStore = defineStore("group", {
     },
     actions: {
         async fetchList() {
-            const toast = useToast()
+            const toast = useToast();
             try {
                 const res = await api.get<GroupInterface[]>(`${url}/groups/`);
                 this.list = res.data;
             } catch (error) {
-                if (error instanceof Error) toast.error(error.message)
+                if (error instanceof Error) toast.error(error.message);
                 else toast.error(String(error));
-                throw error
+                throw error;
             } finally {
                 this.loading = false;
             }
         },
         async fetchItem(id: number) {
-            const toast = useToast()
+            const toast = useToast();
             try {
                 const res = await api.get<GroupInterface>(`${url}/groups/${id}/`);
                 this.item = res.data;
             } catch (error) {
-                if (error instanceof Error) toast.error(error.message)
+                if (error instanceof Error) toast.error(error.message);
                 else toast.error(String(error));
-                throw error
+                throw error;
             } finally {
                 this.loading = false;
             }
         },
         async createItem(item: GroupInterface) {
-            const toast = useToast()
+            const toast = useToast();
             try {
                 const res = await api.post<GroupInterface>(`${url}/groups/`, item);
                 this.item = res.data;
-                toast.success("successfully created")
+                toast.success("Successfully created");
             } catch (error: any) {
                 if (error?.response?.status === 400) {
                     toast.error("Enter the data correctly!");
                 } else {
-                    if (error instanceof Error) toast.error(error.message)
+                    if (error instanceof Error) toast.error(error.message);
                     else toast.error(String(error));
                 }
-                throw error
+                throw error;
             } finally {
                 this.loading = false;
             }
         },
         async updateItem(item: GroupInterface) {
-            const toast = useToast()
+            const toast = useToast();
             try {
                 const res = await api.patch<GroupInterface>(`${url}/groups/${item.id}/`, item);
                 this.item = res.data;
-                toast.success("successfully updated")
+                toast.success("Successfully updated");
             } catch (error: any) {
                 if (error?.response?.status === 400) {
                     toast.error("Enter the data correctly!");
                 } else {
-                    if (error instanceof Error) toast.error(error.message)
+                    if (error instanceof Error) toast.error(error.message);
                     else toast.error(String(error));
                 }
-                throw error
+                throw error;
             } finally {
                 this.loading = false;
             }
         },
         async deleteItem(id: number) {
-            const toast = useToast()
+            const toast = useToast();
             try {
-                await api.delete(`${url}/groups/${id}/`)
-                toast.success("successfully deleted")
+                await api.delete(`${url}/groups/${id}/`);
+                toast.success("Successfully deleted");
             } catch (error) {
-                if (error instanceof Error) toast.error(error.message)
+                if (error instanceof Error) toast.error(error.message);
                 else toast.error(String(error));
-                throw error
+                throw error;
             } finally {
                 this.loading = false;
             }
