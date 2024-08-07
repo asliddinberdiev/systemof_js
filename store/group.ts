@@ -43,6 +43,8 @@ export const useGroupStore = defineStore("group", {
                 this.list = res.data;
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message)
+                else toast.error(String(error));
+                throw error
             } finally {
                 this.loading = false;
             }
@@ -54,6 +56,8 @@ export const useGroupStore = defineStore("group", {
                 this.item = res.data;
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message)
+                else toast.error(String(error));
+                throw error
             } finally {
                 this.loading = false;
             }
@@ -64,8 +68,14 @@ export const useGroupStore = defineStore("group", {
                 const res = await api.post<GroupInterface>(`${url}/groups/`, item);
                 this.item = res.data;
                 toast.success("successfully created")
-            } catch (error) {
-                if (error instanceof Error) toast.error(error.message)
+            } catch (error: any) {
+                if (error?.response?.status === 400) {
+                    toast.error("Enter the data correctly!");
+                } else {
+                    if (error instanceof Error) toast.error(error.message)
+                    else toast.error(String(error));
+                }
+                throw error
             } finally {
                 this.loading = false;
             }
@@ -76,8 +86,14 @@ export const useGroupStore = defineStore("group", {
                 const res = await api.patch<GroupInterface>(`${url}/groups/${item.id}/`, item);
                 this.item = res.data;
                 toast.success("successfully updated")
-            } catch (error) {
-                if (error instanceof Error) toast.error(error.message)
+            } catch (error: any) {
+                if (error?.response?.status === 400) {
+                    toast.error("Enter the data correctly!");
+                } else {
+                    if (error instanceof Error) toast.error(error.message)
+                    else toast.error(String(error));
+                }
+                throw error
             } finally {
                 this.loading = false;
             }
@@ -89,6 +105,8 @@ export const useGroupStore = defineStore("group", {
                 toast.success("successfully deleted")
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message)
+                else toast.error(String(error));
+                throw error
             } finally {
                 this.loading = false;
             }

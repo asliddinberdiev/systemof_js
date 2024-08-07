@@ -26,22 +26,31 @@ export function useGroupForm() {
     async function Action() {
         if (group.value.id === 0) {
             // create item
-            await createItem({
-                id: group.value.id,
-                name: group.value.name,
-                day: group.value.day,
-                start_time: group.value.start_time,
-                end_time: group.value.end_time
-            }).then(() => router.push("/groups"));
+            try {
+                await createItem({
+                    id: group.value.id,
+                    name: group.value.name,
+                    day: group.value.day,
+                    start_time: group.value.start_time,
+                    end_time: group.value.end_time
+                })
+                await router.push("/groups")
+            } catch (error) {
+                console.log("useGroup - create: ", error)
+            }
         } else {
             // update item
-            await updateItem({
-                id: group.value.id,
-                name: group.value.name,
-                day: group.value.day,
-                start_time: group.value.start_time,
-                end_time: group.value.end_time
-            }).then(() => router.push("/groups"));
+            try {
+                await updateItem({
+                    id: group.value.id,
+                    name: group.value.name,
+                    day: group.value.day,
+                    start_time: group.value.start_time,
+                    end_time: group.value.end_time
+                }).then(() => router.push("/groups"));
+            } catch (error) {
+                console.log("useGroup - update: ", error)
+            }
         }
     }
 
