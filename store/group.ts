@@ -52,8 +52,15 @@ export const useGroupStore = defineStore("group", {
                 const res = await api.get<GroupInterface>(`${url}/groups/${id}/`);
                 this.item = res.data;
             } catch (error) {
-                if (error instanceof Error) toast.error(error.message);
-                else toast.error(String(error));
+                if (error instanceof Error) {
+                    if (error?.response?.status === 404) {
+                        toast.error("not found")
+                    } else {
+                        toast.error(error.message);
+                    }
+                } else {
+                    toast.error(String(error))
+                }
                 throw error;
             } finally {
                 this.loading = false;

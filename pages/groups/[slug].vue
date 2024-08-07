@@ -15,21 +15,29 @@ const {
   daySelectItems,
   fetchItem,
   Action,
-  deleteAction
+  deleteAction,
+  router
 } = useGroupForm()
 
 onMounted(async () => {
   if (+groupId.value !== 0) {
-    await fetchItem(+groupId.value).then((res: any) => {
-      if (!res) {
-        id.value.value = store.item.id
-        name.value.value = store.item.name
-        day.value.value = store.item.day
-        start_time.value.value = store.item.start_time.slice(0, -3)
-        end_time.value.value = store.item.end_time.slice(0, -3)
+    try {
+      await fetchItem(+groupId.value).then((res: any) => {
+        if (!res) {
+          id.value.value = store.item.id
+          name.value.value = store.item.name
+          day.value.value = store.item.day
+          start_time.value.value = store.item.start_time.slice(0, -3)
+          end_time.value.value = store.item.end_time.slice(0, -3)
+        }
+      })
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        await router.push('/groups');
+      } else {
+        console.error('An unexpected error occurred:', error);
       }
-    })
-
+    }
   }
 })
 

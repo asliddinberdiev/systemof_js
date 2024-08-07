@@ -138,6 +138,7 @@ export function useGroupForm() {
         daySelectItems,
         fetchItem,
         Action,
-        deleteAction
+        deleteAction,
+        router
     };
 }
