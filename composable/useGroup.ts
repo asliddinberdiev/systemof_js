@@ -1,9 +1,7 @@
 import {storeToRefs} from "pinia";
-import {watch} from "vue";
 import {useGroupStore} from "@/store/group";
 import {useField, useForm} from "vee-validate";
 import type {FieldContext} from "vee-validate";
-import type {GroupInterface} from "@/interfaces";
 
 export function useGroup() {
     const store = useGroupStore();
@@ -70,7 +68,7 @@ export function useGroupForm() {
     }
 
     // useForm
-    const {handleSubmit, handleReset} = useForm({
+    const {handleSubmit} = useForm({
         initialValues: group,
         validationSchema: schema,
     });

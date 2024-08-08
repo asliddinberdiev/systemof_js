@@ -1,18 +1,70 @@
 <script setup lang="ts">
-import {onMounted} from "vue"
+import {onMounted, onUnmounted} from "vue"
 import {usePupilForm} from "@/composable/usePupil"
+import {useToast} from "vue-toastification";
 
-const {loading, groupFetchList, getGroupListWithName: list, pupil, pupilId, fetchItem, Action} = usePupilForm()
+const toast = useToast()
+const {
+  pupilStore,
+  groupStore,
+  isOpenModal,
+  loading,
+  groupFetchList,
+  getGroupListWithName: list,
+  id,
+  firstname,
+  lastname,
+  pupil_phone,
+  parent_phone,
+  group,
+  image,
+  pupilId,
+  fetchItem,
+  fileUpload,
+  Action,
+  deleteAction,
+  router,
+} = usePupilForm()
 
 onMounted(async () => {
-  if (+pupilId.value !== 0) await fetchItem(+pupilId.value)
   await groupFetchList()
+  if (list.value.length === 0) {
+    toast.warning("Group does not exist so create a group first")
+    await router.push('/groups');
+  } else if (+pupilId.value !== 0) {
+    try {
+      await fetchItem(+pupilId.value).then((res: any) => {
+        if (!res) {
+          id.value.value = pupilStore.item.id
+          firstname.value.value = pupilStore.item.firstname
+          lastname.value.value = pupilStore.item.lastname
+          pupil_phone.value.value = pupilStore.item.pupil_phone
+          parent_phone.value.value = pupilStore.item.parent_phone
+          group.value.value = pupilStore.item.group
+          image.value.value = pupilStore.item.image
+        }
+      })
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        await router.push('/pupils');
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
+    }
+  }
+
+  if (+pupilId.value !== 0) await fetchItem(+pupilId.value)
+})
+
+onUnmounted(() => {
+  pupilStore.$reset();
+  groupStore.$reset()
 })
 </script>
 
 <template>
-  <h1 class="text-center font-weight-bold" v-if="loading && +pupil.id !== 0">Loading...</h1>
-  <v-container v-else>
+  <h1 class="text-center font-weight-bold" v-if="loading && +pupilId !== 0">Loading...</h1>
+  <v-container v-else-if="!loading || +pupilId == 0">
     <v-form @submit.prevent="Action">
       <v-row no-gutters>
         <!-- image, pupil_phone, parent_phone, group -->
@@ -20,18 +72,7 @@ onMounted(async () => {
           <v-row>
             <!-- image -->
             <v-col cols="12" sm="6" md="6" lg="6">
-              <v-img class="mx-auto rounded-circle" :src="pupil.image" width="200" height="200" cover/>
-              <v-file-input
-                  v-if="false"
-                  rounded="xl"
-                  bg-color="grey-lighten-3"
-                  variant="solo"
-                  label="User image"
-                  show-size
-                  prepend-icon=""
-                  prepend-inner-icon="mdi-camera"
-                  accept="image/png, image/jpeg, image/jpg, image/webp"
-              />
+              <PhotoInput :path="image.value.value" @photo="fileUpload"/>
             </v-col>
             <!-- pupil_phone, parent_phone, group -->
             <v-col cols="12" sm="6" md="6" lg="6">
@@ -39,7 +80,8 @@ onMounted(async () => {
                 <!-- pupil_phone -->
                 <v-col cols="12">
                   <v-text-field
-                      v-model="pupil.pupil_phone"
+                      v-model="pupil_phone.value.value"
+                      :error-messages="pupil_phone.errorMessage.value"
                       rounded="xl"
                       bg-color="grey-lighten-3"
                       variant="solo"
@@ -51,7 +93,8 @@ onMounted(async () => {
                 <!-- parent_phone -->
                 <v-col cols="12">
                   <v-text-field
-                      v-model="pupil.parent_phone"
+                      v-model="parent_phone.value.value"
+                      :error-messages="parent_phone.errorMessage.value"
                       rounded="xl"
                       bg-color="grey-lighten-3"
                       variant="solo"
@@ -63,7 +106,8 @@ onMounted(async () => {
                 <!-- group -->
                 <v-col cols="12">
                   <v-select
-                      v-model="pupil.group"
+                      v-model="group.value.value"
+                      :error-messages="group.errorMessage.value"
                       rounded="xl"
                       bg-color="grey-lighten-3"
                       variant="solo"
@@ -85,7 +129,8 @@ onMounted(async () => {
             <!-- firstname -->
             <v-col cols="12" sm="6" md="6" lg="6">
               <v-text-field
-                  v-model="pupil.firstname"
+                  v-model="firstname.value.value"
+                  :error-messages="firstname.errorMessage.value"
                   rounded="xl"
                   bg-color="grey-lighten-3"
                   variant="solo"
@@ -97,7 +142,8 @@ onMounted(async () => {
             <!-- lastname -->
             <v-col cols="12" sm="6" md="6" lg="6">
               <v-text-field
-                  v-model="pupil.lastname"
+                  v-model="lastname.value.value"
+                  :error-messages="lastname.errorMessage.value"
                   rounded="xl"
                   bg-color="grey-lighten-3"
                   variant="solo"
@@ -122,12 +168,13 @@ onMounted(async () => {
               block
               type="submet"
           >
-            {{ pupil.id === 0 ? 'Create' : 'Save' }}
+            {{ +pupilId === 0 ? 'Create' : 'Save' }}
           </v-btn>
         </v-col>
         <!-- delete btn -->
-        <v-col v-if="pupil.id > 0">
+        <v-col v-if="+pupilId !== 0">
           <v-btn
+              @click="isOpenModal = true"
               class="my-4 text-white"
               color="error"
               size="large"
@@ -140,4 +187,5 @@ onMounted(async () => {
       </v-row>
     </v-form>
   </v-container>
+  <ConfirmModal :open="isOpenModal" @close="deleteAction"/>
 </template>

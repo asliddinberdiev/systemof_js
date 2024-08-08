@@ -16,7 +16,7 @@ toRefs(props);
       class="mx-auto mt-4 rounded-circle"
       height="150"
       width="150"
-      :src="item?.image"
+      :src="item.image"
       cover
     />
 

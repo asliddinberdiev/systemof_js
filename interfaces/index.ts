@@ -14,9 +14,8 @@ export interface PupilInterface {
     lastname: string;
     pupil_phone: string;
     parent_phone: string;
+    group: number;
     image: string;
-    group: number | string;
-    end_time: string;
     created_at?: string;
     updated_at?: string;
 }
