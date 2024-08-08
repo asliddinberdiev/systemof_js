@@ -43,7 +43,7 @@ export function useLogin() {
                 navigateTo("/");
                 setLocalStorage("access", access);
                 setLocalStorage("refresh", refresh);
-                toast.success("Tizimga xo'sh kelibsiz");
+                toast.success("Welcome to Furqat System");
             })
             .catch((error) => {
                 toast.error("Username or Password is incorrect.");
@@ -66,7 +66,7 @@ export function useLogout() {
                 .then(() => {
                     clearLocalStorage()
                     navigateTo(toPath);
-                    toast.warning("Tizimdan chiqib ketdingiz!")
+                    toast.warning("You are logged out!")
                 })
         }
     }

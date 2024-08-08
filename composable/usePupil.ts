@@ -4,8 +4,14 @@ import { useGroupStore } from "@/store/group";
 import { useToast } from "vue-toastification";
 import { useField, useForm } from "vee-validate";
 import type { FieldContext } from "vee-validate";
+import {useMainStore} from "@/store";
+import {watch} from "vue";
 
 export function usePupil() {
+  // Main Store
+  const mainStore = useMainStore();
+  const {search} = storeToRefs(mainStore);
+
   // Pupil Store
   const pupilStore = usePupilStore();
   const { loading, list } = storeToRefs(pupilStore);
@@ -14,6 +20,8 @@ export function usePupil() {
   // Group Store
   const groupStore = useGroupStore();
   const { fetchList: groupFetchList, getGroupWithName } = groupStore;
+
+  watch(search, async (newVal) => await pupilFetchList(newVal))
 
   return {
     loading,

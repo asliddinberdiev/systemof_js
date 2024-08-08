@@ -1,5 +1,5 @@
 import {useLocalStorage} from "@/composable/useLocalStorage";
-import {useMainStore} from "../store";
+import {useMainStore} from "@/store";
 import {storeToRefs} from "pinia";
 
 export default defineNuxtRouteMiddleware((to, _from) => {
@@ -8,9 +8,7 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     const {getLocalStorage, clearLocalStorage} = useLocalStorage();
 
     // app name
-    appName.value = String(to.name).replace("slug", "group")
-    if (String(to.name) === "index") appName.value = "pupils"
-    if (String(to.name) === "slug") appName.value = "pupils-pupil"
+    appName.value = String(to.name).replace("index", "pupils").replace("-slug", "")
 
     // auth
     if (to.name === undefined) {

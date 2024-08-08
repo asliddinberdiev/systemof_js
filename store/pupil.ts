@@ -31,10 +31,10 @@ export const usePupilStore = defineStore("pupil", {
             state.list.find((item) => item.id === id),
     },
     actions: {
-        async fetchList() {
+        async fetchList(search: string | number = "") {
             const toast = useToast();
             try {
-                const res = await api.get<PupilInterface[]>(`${url}/pupils/`);
+                const res = await api.get<PupilInterface[]>(`${url}/pupils/${search && `?search=${search}`}`);
                 this.list = res.data;
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message);

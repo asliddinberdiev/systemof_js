@@ -40,7 +40,7 @@ export const useGroupStore = defineStore("group", {
             const toast = useToast();
             loading.value = true
             try {
-                const res = await api.get<GroupInterface[]>(`${url}/groups/?search=${search}`);
+                const res = await api.get<GroupInterface[]>(`${url}/groups/${search && `?search=${search}`}`);
                 this.list = res.data;
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message);
