@@ -46,7 +46,7 @@ export function useLogin() {
                 toast.success("Tizimga xo'sh kelibsiz");
             })
             .catch((error) => {
-                toast.error("Tizimga kirishda xatolik.");
+                toast.error("Username or Password is incorrect.");
                 console.log(error);
             })
             .finally(() => (loading.value = false));
