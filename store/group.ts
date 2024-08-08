@@ -1,7 +1,8 @@
-import {defineStore} from "pinia";
+import {defineStore, storeToRefs} from "pinia";
 import type {GroupStateInterface as State, GroupInterface} from "@/interfaces";
 import {useAxios} from "@/composable/useAxios";
 import {useToast} from "vue-toastification";
+import {useMainStore} from "@/store";
 
 const {api} = useAxios();
 const config = useRuntimeConfig();
@@ -33,16 +34,20 @@ export const useGroupStore = defineStore("group", {
         }
     },
     actions: {
-        async fetchList() {
+        async fetchList(search: string | number = "") {
+            const mainStore = useMainStore()
+            const {loading} = storeToRefs(mainStore)
             const toast = useToast();
+            loading.value = true
             try {
-                const res = await api.get<GroupInterface[]>(`${url}/groups/`);
+                const res = await api.get<GroupInterface[]>(`${url}/groups/?search=${search}`);
                 this.list = res.data;
             } catch (error) {
                 if (error instanceof Error) toast.error(error.message);
                 else toast.error(String(error));
                 throw error;
             } finally {
+                loading.value = false
                 this.loading = false;
             }
         },

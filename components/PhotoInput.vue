@@ -33,7 +33,7 @@ onMounted(() => !props.path.length && (url.value = defaultImgUrl));
 
 <template>
   <div class="p-4">
-    <label for="photo-input">
+    <label for="photo-input" class="d-inline-block">
       <v-img
         class="mx-auto rounded-circle border cursor-pointer"
         :src="url"

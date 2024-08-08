@@ -5,7 +5,7 @@ import {useMainStore} from "@/store"
 import {storeToRefs} from "pinia";
 
 const store = useMainStore();
-const {appName} = storeToRefs(store)
+const {appName, search, loading} = storeToRefs(store)
 
 const {menuActions} = useLogout();
 const router = useRouter()
@@ -102,6 +102,8 @@ function swipe(direction) {
       <v-card v-if="isSearch" class="mt-4" flat>
         <v-card-title class="d-flex align-center">
           <v-text-field
+              v-model.trim="search"
+              :loading="loading"
               density="compact"
               label="Search"
               prepend-inner-icon="mdi-magnify"
@@ -111,7 +113,16 @@ function swipe(direction) {
               single-line
               color="white"
               class="mr-3 mr-sm-12"
-          />
+          >
+            <template v-slot:loader>
+              <v-progress-linear
+                  :active="loading"
+                  color="primary"
+                  height="4"
+                  indeterminate
+              />
+            </template>
+          </v-text-field>
           <v-btn color="primary" size="small" icon="mdi-plus" @click="addBtnAction"/>
         </v-card-title>
       </v-card>

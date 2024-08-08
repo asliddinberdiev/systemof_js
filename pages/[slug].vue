@@ -71,36 +71,36 @@ onUnmounted(() => {
         <v-col cols="12">
           <v-row>
             <!-- image -->
-            <v-col cols="12" sm="6" md="6" lg="6">
+            <v-col cols="12" sm="6" md="6" lg="6" class="d-flex justify-center">
               <PhotoInput :path="image.value.value" @photo="fileUpload"/>
             </v-col>
-            <!-- pupil_phone, parent_phone, group -->
+            <!-- firstname, lastname, group -->
             <v-col cols="12" sm="6" md="6" lg="6">
               <v-row no-gutters>
-                <!-- pupil_phone -->
+                <!-- firstname -->
                 <v-col cols="12">
                   <v-text-field
-                      v-model="pupil_phone.value.value"
-                      :error-messages="pupil_phone.errorMessage.value"
+                      v-model="firstname.value.value"
+                      :error-messages="firstname.errorMessage.value"
                       rounded="xl"
                       bg-color="grey-lighten-3"
                       variant="solo"
-                      label="Pupil phone"
-                      placeholder="Pupil phone"
-                      prepend-inner-icon="mdi-phone"
+                      label="First Name"
+                      placeholder="First Name"
+                      prepend-inner-icon="mdi-account"
                   />
                 </v-col>
-                <!-- parent_phone -->
+                <!-- lastname -->
                 <v-col cols="12">
                   <v-text-field
-                      v-model="parent_phone.value.value"
-                      :error-messages="parent_phone.errorMessage.value"
+                      v-model="lastname.value.value"
+                      :error-messages="lastname.errorMessage.value"
                       rounded="xl"
                       bg-color="grey-lighten-3"
                       variant="solo"
-                      label="Pupil phone"
-                      placeholder="Parent phone"
-                      prepend-inner-icon="mdi-phone"
+                      label="Last Name"
+                      placeholder="Last Name"
+                      prepend-inner-icon="mdi-account"
                   />
                 </v-col>
                 <!-- group -->
@@ -123,33 +123,33 @@ onUnmounted(() => {
             </v-col>
           </v-row>
         </v-col>
-        <!--  firstname and lastname  -->
+        <!--  pupil and parent phone  -->
         <v-col cols="12">
           <v-row>
-            <!-- firstname -->
+            <!-- pupil phone -->
             <v-col cols="12" sm="6" md="6" lg="6">
               <v-text-field
-                  v-model="firstname.value.value"
-                  :error-messages="firstname.errorMessage.value"
+                  v-model="pupil_phone.value.value"
+                  :error-messages="pupil_phone.errorMessage.value"
                   rounded="xl"
                   bg-color="grey-lighten-3"
                   variant="solo"
-                  label="First Name"
-                  placeholder="First Name"
-                  prepend-inner-icon="mdi-account"
+                  label="Pupil phone"
+                  placeholder="Pupil phone"
+                  prepend-inner-icon="mdi-phone"
               />
             </v-col>
-            <!-- lastname -->
+            <!-- parent phone -->
             <v-col cols="12" sm="6" md="6" lg="6">
               <v-text-field
-                  v-model="lastname.value.value"
-                  :error-messages="lastname.errorMessage.value"
+                  v-model="parent_phone.value.value"
+                  :error-messages="parent_phone.errorMessage.value"
                   rounded="xl"
                   bg-color="grey-lighten-3"
                   variant="solo"
-                  label="Last Name"
-                  placeholder="Last Name"
-                  prepend-inner-icon="mdi-account"
+                  label="Pupil phone"
+                  placeholder="Parent phone"
+                  prepend-inner-icon="mdi-phone"
               />
             </v-col>
           </v-row>

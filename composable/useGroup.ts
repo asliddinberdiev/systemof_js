@@ -1,12 +1,19 @@
+import {watch} from "vue";
 import {storeToRefs} from "pinia";
+import {useMainStore} from "@/store";
 import {useGroupStore} from "@/store/group";
 import {useField, useForm} from "vee-validate";
 import type {FieldContext} from "vee-validate";
 
 export function useGroup() {
+    const mainStore = useMainStore();
+    const {search} = storeToRefs(mainStore);
+
     const store = useGroupStore();
     const {loading, list} = storeToRefs(store);
     const {fetchList} = store;
+
+    watch(search, async (newVal) => await fetchList(newVal))
 
     return {loading, list, fetchList, store};
 }

@@ -34,4 +34,6 @@ export interface PupilStateInterface {
 
 export interface MainStateInterface {
     appName: string;
+    search: string| number;
+    loading: boolean;
 }
