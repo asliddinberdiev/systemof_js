@@ -31,6 +31,21 @@ export const usePupilStore = defineStore("pupil", {
             state.list.find((item) => item.id === id),
     },
     actions: {
+        async fetchExcel() {
+            const toast = useToast();
+            try {
+                await api.get(`${url}/pupils/export_excel/`).then((res) => {
+                    if(res.status === 200) toast.success("Successfully downloaded");
+                });
+
+            } catch (error) {
+                if (error instanceof Error) toast.error(error.message);
+                else toast.error(String(error));
+                throw error;
+            } finally {
+                this.loading = false;
+            }
+        },
         async fetchList(search: string | number = "") {
             const toast = useToast();
             try {

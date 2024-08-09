@@ -2,7 +2,10 @@
 import {ref, computed} from "vue";
 import {useLogout} from "@/composable/useAuth";
 import {useMainStore} from "@/store"
+import {usePupilStore} from "@/store/pupil";
 import {storeToRefs} from "pinia";
+
+const {fetchExcel} = usePupilStore();
 
 const store = useMainStore();
 const {appName, search, loading} = storeToRefs(store)
@@ -33,6 +36,8 @@ function addBtnAction() {
   if (route.name === "index") navigateTo("/0")
   else navigateTo("/groups/0")
 }
+
+const getExcel = async () => await fetchExcel()
 
 function backAction() {
   router.back()
@@ -98,8 +103,8 @@ function swipe(direction) {
         v-touch="{
       left: () => swipe('left'),
       right: () => swipe('right'),
-    }" class="overflow-y-hidden h-screen">
-      <v-card v-if="isSearch" class="mt-4" flat>
+    }" class="overflow-y-hidden h-screen pb-0">
+      <v-card v-if="isSearch" class="mt-3" flat>
         <v-card-title class="d-flex align-center">
           <v-text-field
               v-model.trim="search"
@@ -123,10 +128,12 @@ function swipe(direction) {
               />
             </template>
           </v-text-field>
+          <v-btn disabled v-if="route.name === 'index'" color="primary" size="small" icon="mdi-download" class="mr-6"
+                 @click="getExcel"/>
           <v-btn color="primary" size="small" icon="mdi-plus" @click="addBtnAction"/>
         </v-card-title>
       </v-card>
-      <v-container class="px-6 overflow-y-scroll h-75" fluid>
+      <v-container class="px-6 overflow-y-scroll h-100" fluid>
         <NuxtPage/>
       </v-container>
     </v-main>
