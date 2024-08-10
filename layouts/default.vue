@@ -128,7 +128,7 @@ function swipe(direction) {
               />
             </template>
           </v-text-field>
-          <v-btn disabled v-if="route.name === 'index'" color="primary" size="small" icon="mdi-download" class="mr-6"
+          <v-btn v-if="route.name === 'index'" color="primary" size="small" icon="mdi-download" class="mr-6"
                  @click="getExcel"/>
           <v-btn color="primary" size="small" icon="mdi-plus" @click="addBtnAction"/>
         </v-card-title>
