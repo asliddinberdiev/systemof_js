@@ -5,7 +5,9 @@ import {useMainStore} from "@/store"
 import {usePupilStore} from "@/store/pupil";
 import {storeToRefs} from "pinia";
 
+const pupilStore = usePupilStore();
 const {fetchExcel} = usePupilStore();
+const {excelUrl} = storeToRefs(pupilStore)
 
 const store = useMainStore();
 const {appName, search, loading} = storeToRefs(store)
@@ -37,7 +39,20 @@ function addBtnAction() {
   else navigateTo("/groups/0")
 }
 
-const getExcel = async () => await fetchExcel()
+const getExcel = async () => {
+  await fetchExcel();
+
+  if (excelUrl.value) {
+    const a = document.createElement('a');
+    a.href = excelUrl.value;
+    a.download = 'pupils_list.xls';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+}
+
 
 function backAction() {
   router.back()

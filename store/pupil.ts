@@ -25,6 +25,7 @@ export const usePupilStore = defineStore("pupil", {
             created_at: "",
             updated_at: "",
         },
+        excelUrl: ""
     }),
     getters: {
         getPupil: (state) => (id: number) =>
@@ -34,8 +35,11 @@ export const usePupilStore = defineStore("pupil", {
         async fetchExcel() {
             const toast = useToast();
             try {
-                await api.get(`${url}/pupils/export_excel/`).then((res) => {
-                    if(res.status === 200) toast.success("Successfully downloaded");
+                await api.get<{file_url: string}>(`${url}/pupils/export_excel/`).then((res) => {
+                    if(res.status === 200) {
+                        this.excelUrl = res.data.file_url;
+                        toast.success("Successfully downloaded");
+                    }
                 });
 
             } catch (error) {

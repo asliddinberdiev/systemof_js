@@ -30,6 +30,7 @@ export interface PupilStateInterface {
     loading: boolean;
     list: PupilInterface[];
     item: PupilInterface;
+    excelUrl: string;
 }
 
 export interface MainStateInterface {
