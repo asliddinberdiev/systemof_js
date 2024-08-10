@@ -7,7 +7,7 @@ import {storeToRefs} from "pinia";
 
 const pupilStore = usePupilStore();
 const {fetchExcel} = usePupilStore();
-const {excelUrl, list:pupilList} = storeToRefs(pupilStore)
+const {excelUrl, list: pupilList} = storeToRefs(pupilStore)
 
 const store = useMainStore();
 const {appName, search, loading} = storeToRefs(store)
@@ -143,7 +143,7 @@ function swipe(direction) {
               />
             </template>
           </v-text-field>
-          <v-btn :disable="pupilList.length === 0" v-if="route.name === 'index'" color="primary" size="small" icon="mdi-download" class="mr-6"
+          <v-btn :disabled="pupilList.length === 0" v-if="route.name === 'index'" color="primary" size="small" icon="mdi-download" class="mr-6"
                  @click="getExcel"/>
           <v-btn color="primary" size="small" icon="mdi-plus" @click="addBtnAction"/>
         </v-card-title>
