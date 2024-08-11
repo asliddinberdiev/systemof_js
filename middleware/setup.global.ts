@@ -8,7 +8,20 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     const {getLocalStorage, clearLocalStorage} = useLocalStorage();
 
     // app name
-    appName.value = String(to.name).replace("index", "pupils").replace("-slug", "")
+    switch (String(to.name)) {
+        case "index":
+            appName.value = "pupils";
+            break;
+        case "index-slug":
+            appName.value = "pupil";
+            break;
+        case "groups":
+            appName.value = "groups";
+            break;
+        case "groups-slug":
+            appName.value = "group";
+            break;
+    }
 
     // auth
     if (to.name === undefined) {
