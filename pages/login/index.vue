@@ -18,7 +18,7 @@ const { username, password, loading, submit } = useLogin();
     rounded="xl"
   >
     <v-card-title class="font-weight-bold text-uppercase mb-4 text-center"
-      >System Of Furqat</v-card-title
+      >System Of</v-card-title
     >
     <form @submit.prevent="submit">
       <v-text-field
