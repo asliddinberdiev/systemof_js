@@ -5,8 +5,7 @@ const {getLocalStorage, setLocalStorage, clearLocalStorage} =
     useLocalStorage();
 
 export function useAxios() {
-    const config = useRuntimeConfig();
-    const baseURL = config.public.BASE_URL || "http://localhost:8000";
+    const baseURL = "https://agsu1uz.pythonanywhere.com";
 
     const api = axios.create({
         baseURL,
