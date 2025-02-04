@@ -9,5 +9,6 @@ FROM node:20-alpine AS production
 WORKDIR /app
 COPY --from=build /app/.output ./.output
 
-EXPOSE 4000
+EXPOSE 3001
+ENV PORT=3001
 CMD ["node", ".output/server/index.mjs"]
